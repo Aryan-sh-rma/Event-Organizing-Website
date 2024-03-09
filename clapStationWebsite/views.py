@@ -32,7 +32,7 @@ def starting_page(request):
         post = None
 
     try:
-        advertisement = advertisements.objects.latest("created_at")
+        advertisement = advertisements.objects.all()
     except advertisement.DoesNotExist:
         advertisement = None
 
@@ -507,7 +507,6 @@ def artist_profile(request, pk):
     # Fetch user's posts
     user_posts = posts.objects.filter(author=user_profile.user).order_by('-id')
     events = Event.objects.filter(event_author=user_profile.user).order_by('-id')[0:3]
-    profileadvertisement = advertisements.objects.latest("created_at")
     profileupComingEvent = upComingEvents.objects.all().order_by('-id').first()
     profile_photo_page = Profilephoto.objects.filter(author=user_profile.user)
     profile_video_page=Profilevideo.objects.filter(author=user_profile.user)
@@ -529,7 +528,7 @@ def artist_profile(request, pk):
         'artists_profile.html',
         {'user_profile': user_profile, 
         "profileupComingEvent":profileupComingEvent, 
-        "profileadvertisement":profileadvertisement, 
+    
         'user_posts': user_posts, 'lastpage': total_pages, 
         'totalpagelist': [n+1 for n in range(total_pages)], 
         'profile_photo_page': profile_photo_page,
@@ -542,7 +541,7 @@ def artist_profile(request, pk):
 
 def about_page(request):
     try:
-        aboutpage = About_page.objects.all().order_by('-id')[0]
+        aboutpage = About_page.objects.all()
     except aboutpage.DoesNotExist:
         aboutpage=None
 
@@ -631,7 +630,7 @@ def profile_page(request):
     user_posts = posts.objects.filter(author=request.user).order_by('-id')
     profile_photo_page = Profilephoto.objects.filter(author=request.user)
     profile_video_page=Profilevideo.objects.filter(author=request.user)
-    profileadvertisement = advertisements.objects.latest("created_at")
+    profileadvertisement = advertisements.objects.all()
     profileupComingEvent = upComingEvents.objects.all().order_by('-id').first()
     events = Event.objects.filter(event_author=request.user).order_by('-id')[0:3]
 
